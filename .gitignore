@@ -1,0 +1,4 @@
+.Rhistory
+*.RData
+*.sublime-*
+filtered.data
