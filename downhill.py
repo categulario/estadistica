@@ -8,7 +8,7 @@
 from numpy import zeros,dot,argmax,argmin,sum
 from math import sqrt
 
-def downhill(F,xStart,side=0.1,tol=1.0e-6):
+def downhill(F, xStart, side=0.1, tol=1.0e-6):
     n = len(xStart)                 # Number of variables
     x = zeros((n+1,n))
     f = zeros(n+1)
