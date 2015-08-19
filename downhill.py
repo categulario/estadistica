@@ -61,6 +61,6 @@ def downhill(F,xStart,side=0.1,tol=1.0e-6):
                         if i != iLo:
                             x[i] = (x[i] - x[iLo])*0.5
                             f[i] = F(x[i])
-    print "Too many iterations in downhill"
-    print "Last values of x were"
+    print("Too many iterations in downhill")
+    print("Last values of x were")
     return x[iLo]
