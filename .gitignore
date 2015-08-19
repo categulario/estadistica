@@ -2,3 +2,4 @@
 *.RData
 *.sublime-*
 filtered.data
+__pycache__/
