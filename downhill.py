@@ -22,14 +22,15 @@ def downhill(F, xStart, side=0.1, tol=1.0e-6):
     for i in range(n+1): f[i] = F(x[i])
 
   # Main loop
-    for k in range(500):
+    for k in range(1000):
       # Find highest and lowest vertices
         iLo = argmin(f)
         iHi = argmax(f)
       # Compute the move vector d
         d = (-(n+1)*x[iHi] + sum(x,axis=0))/n
       # Check for convergence
-        if sqrt(dot(d,d)/n) < tol: return x[iLo]
+        ratio = sqrt(dot(d,d)/n)
+        if ratio < tol: return x[iLo]
 
       # Try reflection
         xNew = x[iHi] + 2.0*d
@@ -61,6 +62,7 @@ def downhill(F, xStart, side=0.1, tol=1.0e-6):
                         if i != iLo:
                             x[i] = (x[i] - x[iLo])*0.5
                             f[i] = F(x[i])
+        print('finish iteration', k, 'with ratio', ratio)
     print("Too many iterations in downhill")
     print("Last values of x were")
     return x[iLo]

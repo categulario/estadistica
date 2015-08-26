@@ -3,3 +3,4 @@
 *.sublime-*
 filtered.data
 __pycache__/
+.Rproj.user
