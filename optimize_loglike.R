@@ -37,4 +37,4 @@ makeLogLike <- function(x_data, y_data) {
 logLike <- makeLogLike(x_data, y_data)
 
 # optimize loglike function
-print(optim(logLike))
+print(optim(rep(0, x_cols), logLike, control=list(fnscale = -1)))
