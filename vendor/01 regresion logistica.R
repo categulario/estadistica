@@ -36,7 +36,7 @@ points(d2, pch=20, col="red")
 # Genera datos clase 1
 n11 <- 200                                                        ## tamaño de muestra de la clase 1
 d11 <- cbind(rnorm(n11, m1[1], s1[1]), rnorm(n11, m1[2], s1[2]))  ## genera datos clase 1
-cla11 <- rep("1", n11)                                             ## etiqueta clase 1
+cla11 <- rep("1", n11)                                            ## etiqueta clase 1
 
 # Genera datos clase 2
 n22 <- 200
