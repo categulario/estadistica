@@ -4,3 +4,7 @@
 filtered.data
 __pycache__/
 .Rproj.user
+*.aux
+*.log
+*.pdf
+*.gz

@@ -16,6 +16,9 @@
 
 \title{Análisis de dos Clasificadores}
 \author{Abraham Toriz\\ Jesús Mejía\\ Luis Cortés\\ Roberto Saucedo}
+
+\newtheorem{definition}{Definición}[section]
+
 \begin{document}
 \pagestyle{empty}
 \begin{minipage}{.15\textwidth}
@@ -28,7 +31,7 @@
 \end{minipage}
 \begin{minipage}{.15\textwidth}
 	\begin{flushright}
-		\includegraphics[scale=.15]{mateLogo}
+		\includegraphics[scale=.22]{matematicas.eps}
 	\end{flushright}
 \end{minipage}
 
@@ -48,9 +51,10 @@
 }
 \\[.5cm]
 { \LARGE \bf
-	Temas Selectos de Matemáticas Aplicadas
+	Temas Selectos de Estadística
 }
-\\[1.5cm]
+\\[1cm]
+Presentan los siguientes\\[1cm]
 { \Large
 I N T E G R A N T E S:
 }\\
@@ -82,10 +86,36 @@ Xalapa, Veracruz
 \pagestyle{plain}
 
 \begin{abstract}
-Lorem
+En el afán del ser humano por reducir el esfuerzo para concretar una tarea se han desarrollado técnicas y conocimientos que suplen a la intuicíón. Una de estas tareas es la clasificación de objetos para tomar mejores decisiones. Con tal fin en la matemática, por medio de la estadística, se tienen métodos que permiten aproximar un modelo de clasificación de datos basados en una muestra. En este proyecto estudiamos dos de ellos: el modelo de regresión logística y el modelo de los $n$ vecinos más cercanos.
 \end{abstract}
 
-\section{Modelo Logístico}
+\section{Consideraciones}
+
+Para poder clasificar los datos por medio de un algoritmo es necesario hacer \textit{suposiciones} acerca de la información que tenemos de entrada. Una de las suposiciones necesarias es pensar que existe algún modelo $f$ (aunque no lo conozcamos) que nos proporciona la clasificación de los datos.
+
+$$
+Y = f(X) + \epsilon
+$$
+
+donde $X$ es la información de entrada, $Y$ la clase a la que pertenece y $\epsilon$  una variable aleatoria independiente de $X$ con media cero que se relaciona con el error introducido por el medio.
+
+Con esta información tratamos de construir una estimación del modelo $f$ que llamamos $\hat{f}$ con la cual tratamos de aproximar $Y$. A esta aproximación le llamamos $\hat{Y}$.
+
+$$
+\hat{Y} = \hat{f}(X)
+$$
+
+\subsection{Tipos de modelos}
+
+Trabajaremos con dos tipos de modelos según la forma en que estos se construyen a partir de los datos muestra.
+
+\begin{itemize}
+	\item \textbf{Modelos paramétricos} Son aquellos que dependen de parámetros y estos parámetros se ajustan bajo algún criterio del \textit{mejor ajuste} a partir de los datos muestra. Se espera que estos datos sean suficientemente buenos (y los parámetros bien escogidos) para que el modelo clasifique bien datos que no están en la muestra.
+	\item \textbf{Modelos no paramétricos} No dependen de parámetros sin embargo se ajusta el clasificador a partir de una muestra representativa de los datos a clasificar.
+\end{itemize}
+
+\section{Regresión Logística}
+
 ¿Cómo podríamos modelar la relación ente $p(X) = P(Y=1|X)$ y $X$? Pues bien, sabemos que podemos utilizar un modelo de regresión lineal para representar dichas probabilidades:
 \begin{equation*}
 p(X) = \beta_0 + \beta_1X.

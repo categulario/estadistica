@@ -58,7 +58,7 @@ points(d22, pch=20, col="red")
 
 # Clasificador k-nn
 
-k<-1
+k <- 1
 
 clhat <- knn(train, test, cl, k = k)
 print("Knn success ratio")
@@ -66,15 +66,15 @@ sum(clte == clhat) / (n11 + n22)        # porcentaje de aciertos
 
 # Clasificador regresión logística
 
-model<-glm( cl ~ train,  family=binomial("logit"))
+model <- glm(cl ~ train,  family=binomial("logit"))
 
 a <- rowSums(coefficients(model)[2:3] * test) + coefficients(model)[1]
 
-aux1<-exp(a)
+aux1 <- exp(a)
 
-clhat2<-rep("1",n11+n22)
+clhat2 <- rep("1", n11 + n22)
 
-clhat2[aux1>1]<-"2"
+clhat2[aux1 > 1] <- "2"
 
 print("loglike success ratio")
 sum(clte == clhat2) / (n11 + n22)  # Porcentaje de aciertos
