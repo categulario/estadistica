@@ -85,9 +85,39 @@ Xalapa, Veracruz
 Lorem
 \end{abstract}
 
-\section{Regresión Logística}
-En este apartado se describirá el modelo de interés...
+\section{Modelo Logístico}
+¿Cómo podríamos modelar la relación ente $p(X) = P(Y=1|X)$ y $X$? Pues bien, sabemos que podemos utilizar un modelo de regresión lineal para representar dichas probabilidades:
+\begin{equation*}
+p(X) = \beta_0 + \beta_1X.
+\end{equation*}
 
+Sin embargo nos gustaría una función $p$ tal que modele la probabilidad, es decir, que tenga imágenes entre 0 y 1 para todos los valores de $X$. En la regresión logística, se usa la función \textit{logística},
+
+\begin{equation}
+	\label{eqn:func_logistica}
+	p(X) = \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}},
+\end{equation}
+donde:
+\begin{itemize}
+	\item[$\beta_0$]$\in \mathbb{R}$
+	\item[$\beta_1^T$] es un vector con $p$ entradas.
+\end{itemize}
+Para ajustar el modelo (\ref{eqn:func_logistica}), usamos el método de la máxima verosimilitud. Esta técnica propone una función paramétrica:
+\begin{equation}
+	\label{eqn:func_L}
+	\mathcal{L}(\beta_{0}, \beta_{1}) = \prod_{i=1}^{N}p(X_i)^{Y_i}[1-p(X_{i})]^{1-Y_i}
+\end{equation}
+Los estimadores $\hat{\beta_0}$ y $\hat{\beta_1}$ se eligen de tal que manera que maximicen la función $\mathcal{L}$ (conocida como función de verosimilitud). Las máxima verosimilitud es una aproximación general que se usa para ajustar modelos no lineales.\\
+
+Si sustituimos la ecuación (\ref{eqn:func_logistica}) en (\ref{eqn:func_L}) y desarrollando obtenemos,
+$$
+\mathcal{L}(\beta_{0}, \beta_{1}) =  \prod_{i=1}^{N} \left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right]^{Y_i} \left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right]^{1-Y_i}.
+$$
+Aplicando el logaritmo, tenemos
+$$
+\ell(\beta_{0}, \beta_{1}) = \log\mathcal{L}(\beta_{0}, \beta_{1}) = \sum_{i=1}^{N} Y_i\left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right] +  (1-Y_i)\left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right].
+$$
+Ahora, solo resta maximizar dicha función, a través métodos numéricos apropiados.
 \section{Los $k$ Vecinos más Cercanos}
 En este apartado se describirá el modelo de interés...
 
