@@ -148,8 +148,33 @@ $$
 \ell(\beta_{0}, \beta_{1}) = \log\mathcal{L}(\beta_{0}, \beta_{1}) = \sum_{i=1}^{N} Y_i\left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right] +  (1-Y_i)\left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right].
 $$
 Ahora, solo resta maximizar dicha función, a través métodos numéricos apropiados.
+
 \section{Los $k$ Vecinos más Cercanos}
-En este apartado se describirá el modelo de interés...
+
+La idea básica sobre la que se fundamenta este clasificador es que una nueva muestra será clasificada a la clase más frecuente a la que pertenecen sus vecinos más cercanos.
+
+$k$-NN es un algoritmo perezoso, esto es, que durante el entrenamiento, solo guarda instancias y no contruye ningun modelo, tampoco hace supuestos sobre la distribucion que siguen los datos, por lo tanto es no parametrico.
+
+Dado un conjunto de datos $ X= \left\lbrace X_1,X_2, ... , X_p \right\rbrace $ y un conjunto de clases $ C= \left\lbrace C_1,C_2, ... , C_m \right\rbrace $, el  problema de clasificación es encontrar una función $ f:X \longrightarrow C $ tal que cada $ X_i $ es asignada a una clase $ C_j $.
+
+La fase de entrenamiento del algoritmo consiste en almacenar los vectores característicos y las etiquetas de las clases de los ejemplos de entrenamiento.  En la fase de clasificación, la evaluación del ejemplo (del que no se conoce su clase) es representada por un vector en el espacio característico.
+$ x = \left\lbrace x_1,x_2, ... , x_m \right\rbrace $
+Se calcula la distancia entre los vectores almacenados y el nuevo vector, generalmente se usa la distancia euclidiana
+
+\begin{center}
+$ d(x_i,x_j)=\sqrt{\Sigma_{r=1}^{p} (x_{ri}-x_{rj})^2} $
+\end{center}
+y se seleccionan los $ k $ ejemplos más cercanos. 
+
+El nuevo ejemplo es clasificado con la clase que más se repite en los vectores seleccionados. Este método supone que los vecinos más cercanos nos dan la mejor clasificación y esto se hace utilizando todos los atributos. Los valores de los atributos del i-esimo ejemplo con $ i \epsilon \left\lbrace 1, .. , n \right\rbrace $ se representan por el vector p-dimensional
+
+El problema de dicha suposición es que es posible que se tengan muchos atributos irrelevantes que dominen sobre la clasificación: dos atributos relevantes perderían peso entre otros veinte irrelevantes.
+
+Para corregir el posible sesgo se puede asignar un peso a las distancias de cada atributo, dándole así mayor importancia a los atributos más relevantes. Otra posibilidad consiste en tratar de determinar o ajustar los pesos con ejemplos conocidos de entrenamiento. Finalmente, antes de asignar pesos es recomendable identificar y eliminar los atributos que se consideran irrelevantes.
+
+La mejor elección de $ k $ depende fundamentalmente de los datos; generalmente, valores grandes de $ k $ reducen el efecto de ruido en la clasificación, pero crean límites entre clases parecidas. Un buen $ k $ puede ser seleccionado mediante una optimización de uso.
+
+La exactitud de este algoritmo puede ser severamente degradada por la presencia de ruido o características irrelevantes, o si las escalas de características no son consistentes con lo que uno considera importante. 
 
 \section{Observaciones}
 
