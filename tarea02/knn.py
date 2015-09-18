@@ -40,7 +40,7 @@ def make_points(num, mean=0, variance=1):
 
 
 if __name__ == '__main__':
-    num = 2
+    num = 200
 
     x_blue = make_points(num)
     y_blue = make_points(num)
@@ -51,10 +51,10 @@ if __name__ == '__main__':
     fig, ax = plt.subplots()
     ax.set_title('Click sobre la gráfica para clasificar')
 
-    def make_class(item, category='A'):
+    def make_class(item, category='Azul'):
         return tuple(item), category
 
-    make_class_b = partial(make_class, category='B')
+    make_class_b = partial(make_class, category='Verde')
 
     joined_data = list(map(make_class, zip(x_blue, y_blue)))
     joined_data += list(map(make_class_b, zip(x_red, y_red)))
