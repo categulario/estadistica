@@ -1,0 +1,56 @@
+\documentclass[11pt,letterpaper,reqno]{article}
+
+\textwidth      =  6in
+\textheight     =  8.25in
+\oddsidemargin  =  18pt
+\evensidemargin =  18pt
+\topmargin      =  0.00in
+
+\usepackage[utf8]{inputenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{minted}
+\graphicspath{{img/}}
+
+\title{Implementación y Simulaciones del Modelo $k$-nn}
+\author{Abraham Toriz\\ Jesús Mejía\\ Luis Cortés\\ Roberto Saucedo}
+
+\begin{document}
+\maketitle
+\begin{abstract}
+Este trabajo se da la implementación  de del modelo $k$-nn, después se hacen simulaciones y se hacen comentarios de los resultados obtenidos.
+\end{abstract}
+
+\section{Implementación en Python}
+Sea \verb|data = |$\{(X_i, Y_i): i=1,\;2,\ldots,\;N,\; Y_i=1 \text{ ó } Y_i=2\}$ el conjunto de $N$ observaciones y \verb|x| un dato que queremos clasificar. En estos ejemplos, usaremos la métrica eucliana y los cálculos los hará la función \verb|metric(x, y)|.\\
+
+Primero debemos calcular las todas distancias entre \verb|x| y los $X_i$ en \verb|data|
+\begin{minted}{python}
+    distances = []
+    for dat in data:
+        distances.append((metric(dat[0], x), dat[1]))
+\end{minted}
+
+Una vez guardadas las distancias, se ordenan ascendentemente, es decir:
+\begin{minted}{python}
+    distances.sort(key=lambda x: x[0])
+\end{minted}
+Luego se encuentra el número de elementos de la clase uno y de la clase dos para los $k$ vecinos más cercanos:
+\begin{minted}{python}
+    classes = {}
+    for item in distances[:k]:
+        if item[1] in classes:
+            classes[item[1]] += 1
+        else:
+            classes[item[1]] = 1
+\end{minted}
+Finalmente se selecciona el mayor número de elementos que tienen la mis clase:
+\begin{minted}{python}
+    classes = list(classes.items())
+    classes.sort(key=lambda x: x[1])
+    return classes[-1][0]
+\end{minted}
+\end{document}
