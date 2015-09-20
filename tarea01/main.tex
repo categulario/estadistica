@@ -92,15 +92,15 @@ En el afán del ser humano por reducir el esfuerzo para concretar una tarea se h
 
 \section{Consideraciones}
 
-Para poder clasificar los datos por medio de un algoritmo es necesario hacer \textit{suposiciones} acerca de la información que tenemos de entrada. Una de las suposiciones necesarias es pensar que existe algún modelo $f$ (aunque no lo conozcamos) que nos proporciona la clasificación de los datos.
+Para poder clasificar los datos por medio de un algoritmo es necesario hacer \textit{suposiciones}. Una de las suposiciones necesarias es pensar que existe algún modelo $f$ (aunque no lo conozcamos) que nos proporciona la clasificación de los datos
 
 $$
-Y = f(X) + \epsilon
+Y = f(X) + \varepsilon,
 $$
 
-donde $X$ es la información de entrada, $Y$ la clase a la que pertenece y $\epsilon$  una variable aleatoria independiente de $X$ con media cero que se relaciona con el error introducido por el medio.
+donde $X$ es el dato a clasificar, $Y$ la clase a la que pertenece y $\epsilon$  una variable aleatoria independiente de $X$ con media cero que se relaciona con el error introducido por el medio.
 
-Con esta información tratamos de construir una estimación del modelo $f$ que llamamos $\hat{f}$ con la cual tratamos de aproximar $Y$. A esta aproximación le llamamos $\hat{Y}$.
+Con esta información tratamos de construir una estimación del modelo $f$ que llamamos $\hat{f}$ con la cual tratamos de aproximar $Y$. A esta aproximación la denotamos por $\hat{Y}$.
 
 $$
 \hat{Y} = \hat{f}(X)
@@ -108,10 +108,10 @@ $$
 
 \subsection{Tipos de modelos}
 
-Trabajaremos con dos tipos de modelos según la forma en que estos se construyen a partir de los datos muestra.
+Trabajaremos con dos tipos de modelos según la forma en que estos se construyen a partir de los supuestos.
 
 \begin{itemize}
-	\item \textbf{Modelos paramétricos} Son aquellos que dependen de parámetros y estos parámetros se ajustan bajo algún criterio del \textit{mejor ajuste} a partir de los datos muestra. Se espera que estos datos sean suficientemente buenos (y los parámetros bien escogidos) para que el modelo clasifique bien datos que no están en la muestra.
+	\item \textbf{Modelos paramétricos} Son aquellos que dependen de parámetros y estos parámetros se estiman bajo algún criterio del \textit{mejor ajuste} a partir de los datos muestra. Se espera que estos datos sean suficientemente buenos (y los parámetros bien escogidos) para que el modelo clasifique bien.
 	\item \textbf{Modelos no paramétricos} No dependen de parámetros sin embargo se ajusta el clasificador a partir de una muestra representativa de los datos a clasificar.
 \end{itemize}
 
