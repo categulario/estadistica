@@ -10,3 +10,4 @@ __pycache__/
 *.gz
 *.dvi
 *.out
+_minted-main/
