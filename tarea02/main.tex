@@ -21,7 +21,7 @@
 \begin{document}
 \maketitle
 \begin{abstract}
-Este trabajo se da la implementación  de del modelo $k$-nn, después se hacen simulaciones y se hacen comentarios de los resultados obtenidos.
+En este trabajo se da la implementación  de del modelo $k$-nn, después se hacen simulaciones y se comentarios de los resultados obtenidos.
 \end{abstract}
 
 \section{Implementación en Python}
@@ -47,7 +47,7 @@ Luego se encuentra el número de elementos de la clase uno y de la clase dos par
         else:
             classes[item[1]] = 1
 \end{minted}
-Finalmente se selecciona el mayor número de elementos que tienen la mis clase:
+Finalmente se selecciona la clase con mayor número de elementos:
 \begin{minted}{python}
     classes = list(classes.items())
     classes.sort(key=lambda x: x[1])
