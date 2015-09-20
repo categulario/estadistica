@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper, reqno]{article}
+\documentclass[11pt,letterpaper,reqno]{article}
 
 \textwidth      =  6in
 \textheight     =  8.25in
@@ -12,6 +12,7 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{hyperref}
 \graphicspath{{img/}}
 
 \title{Análisis de dos Clasificadores}
@@ -147,11 +148,8 @@ Aplicando el logaritmo, tenemos
 $$
 \ell(\beta_{0}, \beta_{1}) = \log\mathcal{L}(\beta_{0}, \beta_{1}) = \sum_{i=1}^{N} Y_i\left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right] +  (1-Y_i)\left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right].
 $$
-<<<<<<< HEAD
+
 Ahora, solo resta maximizar dicha función, a través métodos numéricos apropiados. 
-=======
-Ahora, solo resta maximizar dicha función, a través métodos numéricos apropiados.
->>>>>>> 5afb7f8dbfe8e8fa3e01992f11526939f66b63b4
 
 \section{Los $k$ Vecinos más Cercanos}
 
@@ -186,60 +184,60 @@ A continuación se presenta una comparativa de la aplicación de estos dos model
 
 En el primer caso (fig. \ref{fig:fig01}) se estudian dos conjuntos con medias distintas y poca varianza, donde es difícil que un punto de un conjunto se encuentre cerca del otro conjunto.
 
-\begin{figure}
-	\label{fig:fig01}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=.4]{fig01}
 	\end{center}
 	\caption{Conjuntos \textit{ajenos}, 99\% de éxito en ambos clasificadores.}
+	\label{fig:fig01}
 \end{figure}
 
 En este caso tanto el clasificador $k$-nn como la regresión logística obtuvieron un resultado satisfactorio clasificando adecuadamente el 99\% de la muestra. Sin embargo conforme los conjuntos van acercando sus medias este resultado empieza a ser menos preciso como se puede observar en la figura \ref{fig:fig02}
 
-\begin{figure}
-	\label{fig:fig02}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.4]{fig02}
 	\end{center}
 	\caption{Conforme los conjuntos acercan sus medias la precisión disminuye en ambos casos: 93\% para la regresión logística y 88\% para $k$-nn.}
+	\label{fig:fig02}
 \end{figure}
 
-Si se presenta el caso de que los conjuntos compartan la media y la varianza, su clasificación se vuelve casi imposible, siendo mejor lanzar una moneda y decidir el resultado que fiarse de algún método.
+Si se presenta el caso de que los conjuntos compartan la media y la varianza, su clasificación se vuelve casi imposible, siendo mejor lanzar una moneda y decidir el resultado que fiarse de algún método (figure \ref{fig:fig03})
 
-\begin{figure}
-	\label{fig:fig03}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.4]{fig03}
 	\end{center}
 	\caption{La media y la varianza son iguales, no es posible distinguir con certeza los conjuntos entre sí usando estos clasificadores, los resultados de la evaluación son 54\% de éxito para la regresión, 48\% para $k$-nn}
+	\label{fig:fig03}
 \end{figure}
 
 Ahora, si suponemos dos conjuntos con medias distintas y mucha varianza observaremos que se comenzarán a mezclar, al mezclarse habrá una región donde podremos encontrar elementos de ambas clases y al preguntar los los vecinos más cercanos puede suceder que se encuentren más de una u otra clase. En este experimento la regresión logística obtuvo un mejor desempeño como se observa en la figura \ref{fig:fig04}
 
-\begin{figure}
-	\label{fig:fig04}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.4]{fig04}
 	\end{center}
 	\caption{Cuando los conjuntos se mezclan, $k$-nn puede confundirse (87\% de éxito), pareciera que la regresión logísitca es una mejor opción con el 92\% de éxito}
+	\label{fig:fig04}
 \end{figure}
 
 Sin embargo, en dos experimentos más se observó un comportamiento diferente. En el primero se plantean dos conjuntos con medias iguales pero varianzas desalineadas en los ejes, de forma que existe una región de puntos mixta en el centro y cuatro regiones más o menos bien definidas en cuanto a clase (figura \ref{fig:fig05}). En el segundo se observa un cluster de elementos de la clase 1 de poca varianza sumergido en una región de elementos de la clase 2 de mayor varianza (figura \ref{fig:fig06}). En ambos casos $k$-nn demostró tener un mejor desempeño para clasificar los datos.
 
-\begin{figure}
-	\label{fig:fig05}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.4]{fig05}
 	\end{center}
 	\caption{Diseño en \textit{cruz} de dos conjuntos. El clasificador de la regresión logística tiene un muy pobre desempeño (49\%) mientras que $k$-nn se mantiene aceptable con 70\% de aciertos}
+	\label{fig:fig05}
 \end{figure}
 
-\begin{figure}
-	\label{fig:fig06}
+\begin{figure}[h]
 	\begin{center}
 		\includegraphics[scale=0.4]{fig06}
 	\end{center}
 	\caption{Cluster. También en este caso $k$-nn logra un mejor resultado quizá debido a la cercanía de los puntos de una de las clases. Obtiene 72\% de aciertos mientras que la regresión logística apenas supera el tiro de la moneda con 51\%}
+	\label{fig:fig06}
 \end{figure}
 
 \section{Conclusiones}
@@ -249,5 +247,11 @@ Pese a la formalidad con que se construye la teoría alrededor del clasificador 
 Sin duda la idea de optimizar para un conjunto de parámetros puede mejorarse por ejemplo encontrando cotas para estos mismos, quizá esto y algunas otras técnicas proporcionen un mejor acercamiento al resultado esperado.
 
 En esta sección se desarrollarán algunos experimentos en lo que pondremos a prueba los modelos poniendo a prueba la efectividad de éstos.
+\section*{Enlaces}
+
+\begin{itemize}
+	\item \url{https://github.com/developingo/estadistica/tarea01} \href{https://github.com/developingo/estadistica/tarea01}{Código usado para realizar las gráficas y las estimaciones}
+\end{itemize}
+>>>>>>> 8678110f129eadc51b170b88cb737ad7e66a01a6
 
 \end{document}
