@@ -92,6 +92,8 @@ En el afán del ser humano por reducir el esfuerzo para concretar una tarea se h
 
 \section{Consideraciones}
 
+La elección de la notación para los escritos científicos siempre es una tarea difícil, así que adoptaremos el mismo que los convencionalismos de la ESL (vea \cite{sLearning2013}). Usaremos $N$ para representar el número de datos distintos u observaciones en nuestras muestras y $p$ denotará el número de variables que están disponibles para hacer predicciones.\\
+
 Para poder clasificar los datos por medio de un algoritmo es necesario hacer \textit{suposiciones}. Una de las suposiciones necesarias es pensar que existe algún modelo $f$ (aunque no lo conozcamos) que nos proporciona la clasificación de los datos
 
 $$
@@ -117,64 +119,65 @@ Trabajaremos con dos tipos de modelos según la forma en que estos se construyen
 
 \section{Regresión Logística}
 
-¿Cómo podríamos modelar la relación ente $p(X) = P(Y=1|X)$ y $X$? Pues bien, sabemos que podemos utilizar un modelo de regresión lineal para representar dichas probabilidades:
+Supongamos que tenemos $N$ observaciones (con clases $Y=1$ o $Y=2$). En cierto momento nos encontramos un nuevo dato $X$ del cual no se conoce la clase que pertenece. Ahora nuestro trabajo es encontrar la función $p$ de probabilidad que nos indique la clase de $X$ en función de las $N$ observaciones previas. ¿Cómo podríamos modelar la relación ente $p(X) = P(Y=1|X)$ y $X$? Pues bien, sabemos que podemos utilizar un modelo de regresión lineal para representar dichas probabilidades:
 \begin{equation*}
 p(X) = \beta_0 + \beta_1X.
 \end{equation*}
 
-Sin embargo nos gustaría una función $p$ tal que modele la probabilidad, es decir, que tenga imágenes entre 0 y 1 para todos los valores de $X$. En la regresión logística, se usa la función \textit{logística},
+Sin embargo nos gustaría una función $P$ tal que modele la probabilidad (i.e. $\forall X$, $P(X)\in[0,\; 1]$). En la regresión logística, se usa la función \textit{logística},
 
 \begin{equation}
 	\label{eqn:func_logistica}
-	p(X) = \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}},
+	P(X) = \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}},
 \end{equation}
 donde:
 \begin{itemize}
 	\item[$\beta_0$]$\in \mathbb{R}$
 	\item[$\beta_1^T$] es un vector con $p$ entradas.
 \end{itemize}
-Para ajustar el modelo (\ref{eqn:func_logistica}), usamos el método de la máxima verosimilitud. Esta técnica propone una función paramétrica:
+Para ajustar el modelo (\ref{eqn:func_logistica}), usamos el método de la máxima verosimilitud. Esta técnica propone una función paramétrica para la clasificación binaria:
 \begin{equation}
 	\label{eqn:func_L}
 	\mathcal{L}(\beta_{0}, \beta_{1}) = \prod_{i=1}^{N}p(X_i)^{Y_i}[1-p(X_{i})]^{1-Y_i}
 \end{equation}
-Los estimadores $\hat{\beta_0}$ y $\hat{\beta_1}$ se eligen de tal que manera que maximicen la función $\mathcal{L}$ (conocida como función de verosimilitud). Las máxima verosimilitud es una aproximación general que se usa para ajustar modelos no lineales.\\
+Los estimadores $\hat{\beta_0}$ y $\hat{\beta_1}$ se eligen de tal que manera que maximicen la función $\mathcal{L}$ (conocida como función de verosimilitud). Las máxima verosimilitud es una aproximación general que se usa para ajustar modelos lineales y no lineales.\\
 
 Si sustituimos la ecuación (\ref{eqn:func_logistica}) en (\ref{eqn:func_L}) y desarrollando obtenemos,
 $$
 \mathcal{L}(\beta_{0}, \beta_{1}) =  \prod_{i=1}^{N} \left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right]^{Y_i} \left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right]^{1-Y_i}.
 $$
-Aplicando el logaritmo, tenemos
+La función anterior es difícil de trabajar, puesto que está dado por un producto y es más difícil tratarla que si se tratara de una suma. Así, apliquemos el logaritmo para obtener:
 $$
-\ell(\beta_{0}, \beta_{1}) = \log\mathcal{L}(\beta_{0}, \beta_{1}) = \sum_{i=1}^{N} Y_i\left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right] +  (1-Y_i)\left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right].
+\ell(\beta_{0}, \beta_{1}) = \log\mathcal{L}(\beta_{0}, \beta_{1}) = \sum_{i=1}^{N}\left[ Y_i\left[ \frac{e^{\beta_0 + \beta_1^{T} X}}{1+e^{\beta_0 + \beta_1^{T}X}} \right] +  (1-Y_i)\left[\frac{1}{1+e^{\beta_0 + \beta_1^{T}X}} \right] \right].
 $$
 
 Ahora, solo resta maximizar dicha función, a través métodos numéricos apropiados. 
 
 \section{Los $k$ Vecinos más Cercanos}
 
-La idea básica sobre la que se fundamenta este clasificador es que una nueva muestra será clasificada a la clase más frecuente a la que pertenecen sus vecinos más cercanos.
+La idea básica sobre la que se fundamenta este clasificador es que una nueva muestra será clasificada a la clase más frecuente a la que pertenecen sus vecinos más cercanos ($k$-nn por sus siglas en inglés).\\
 
-$k$-NN es un algoritmo perezoso, esto es, que durante el entrenamiento, solo guarda instancias y no contruye ningun modelo, tampoco hace supuestos sobre la distribucion que siguen los datos, por lo tanto es no parametrico.
+$k$-nn es un algoritmo perezoso, esto es, que durante el entrenamiento, solo guarda instancias y no construye ningún modelo, tampoco hace supuestos sobre la distribución que siguen los datos, por lo tanto es no paramétrico.\\
 
-Dado un conjunto de datos $ X= \left\lbrace X_1,X_2, ... , X_p \right\rbrace $ y un conjunto de clases $ C= \left\lbrace C_1,C_2, ... , C_m \right\rbrace $, el  problema de clasificación es encontrar una función $ f:X \longrightarrow C $ tal que cada $ X_i $ es asignada a una clase $ C_j $.
+Dado un conjunto de datos $ X= \left\lbrace X_1,\;X_2, \ldots ,\; X_p \right\rbrace $ y un conjunto de clases $ C= \left\lbrace C_1,\;C_2, \ldots ,\; C_m \right\rbrace $, el  problema de clasificación es encontrar una función $ f:X \longrightarrow C $ tal que cada $ X_i $ es asignada a una clase $ C_j $.\\
 
 La fase de entrenamiento del algoritmo consiste en almacenar los vectores característicos y las etiquetas de las clases de los ejemplos de entrenamiento.  En la fase de clasificación, la evaluación del ejemplo (del que no se conoce su clase) es representada por un vector en el espacio característico.
 $ x = \left\lbrace x_1,x_2, ... , x_m \right\rbrace $
 Se calcula la distancia entre los vectores almacenados y el nuevo vector, generalmente se usa la distancia euclidiana
 
-\begin{center}
-$ d(x_i,x_j)=\sqrt{\Sigma_{r=1}^{p} (x_{ri}-x_{rj})^2} $
-\end{center}
-y se seleccionan los $ k $ ejemplos más cercanos.
+$$
+d(x_i,x_j)=\sqrt{\sum_{r=1}^{p} (x_{ri}-x_{rj})^2} 
+$$
 
-El nuevo ejemplo es clasificado con la clase que más se repite en los vectores seleccionados. Este método supone que los vecinos más cercanos nos dan la mejor clasificación y esto se hace utilizando todos los atributos. Los valores de los atributos del i-esimo ejemplo con $ i \epsilon \left\lbrace 1, .. , n \right\rbrace $ se representan por el vector p-dimensional
+y se seleccionan los $ k $ ejemplos más cercanos.\\
 
-El problema de dicha suposición es que es posible que se tengan muchos atributos irrelevantes que dominen sobre la clasificación: dos atributos relevantes perderían peso entre otros veinte irrelevantes.
+El nuevo ejemplo es clasificado con la clase que más se repite en los vectores seleccionados. Este método supone que los vecinos más cercanos nos dan la mejor clasificación y esto se hace utilizando todos los atributos. Los valores de los atributos del i-esimo ejemplo con $ i \in \left\lbrace 1, \ldots , n \right\rbrace $ se representan por el vector p-dimensional.\\
 
-Para corregir el posible sesgo se puede asignar un peso a las distancias de cada atributo, dándole así mayor importancia a los atributos más relevantes. Otra posibilidad consiste en tratar de determinar o ajustar los pesos con ejemplos conocidos de entrenamiento. Finalmente, antes de asignar pesos es recomendable identificar y eliminar los atributos que se consideran irrelevantes.
+El problema de dicha suposición es que es posible que se tengan muchos atributos irrelevantes que dominen sobre la clasificación: dos atributos relevantes perderían peso entre otros veinte irrelevantes.\\
 
-La mejor elección de $ k $ depende fundamentalmente de los datos; generalmente, valores grandes de $ k $ reducen el efecto de ruido en la clasificación, pero crean límites entre clases parecidas. Un buen $ k $ puede ser seleccionado mediante una optimización de uso.
+Para corregir el posible sesgo se puede asignar un peso a las distancias de cada atributo, dándole así mayor importancia a los atributos más relevantes. Otra posibilidad consiste en tratar de determinar o ajustar los pesos con ejemplos conocidos de entrenamiento. Finalmente, antes de asignar pesos es recomendable identificar y eliminar los atributos que se consideran irrelevantes.\\
+
+La mejor elección de $ k $ depende fundamentalmente de los datos; generalmente, valores grandes de $ k $ reducen el efecto de ruido en la clasificación, pero crean límites entre clases parecidas. Un buen $ k $ puede ser seleccionado mediante una optimización de uso.\\
 
 La exactitud de este algoritmo puede ser severamente degradada por la presencia de ruido o características irrelevantes, o si las escalas de características no son consistentes con lo que uno considera importante.
 
@@ -186,7 +189,7 @@ En el primer caso (fig. \ref{fig:fig01}) se estudian dos conjuntos con medias di
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=.4]{fig01}
+		%\includegraphics[scale=.4]{fig01}
 	\end{center}
 	\caption{Conjuntos \textit{ajenos}, 99\% de éxito en ambos clasificadores.}
 	\label{fig:fig01}
@@ -196,7 +199,7 @@ En este caso tanto el clasificador $k$-nn como la regresión logística obtuvier
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.4]{fig02}
+		%\includegraphics[scale=0.4]{fig02}
 	\end{center}
 	\caption{Conforme los conjuntos acercan sus medias la precisión disminuye en ambos casos: 93\% para la regresión logística y 88\% para $k$-nn.}
 	\label{fig:fig02}
@@ -206,7 +209,7 @@ Si se presenta el caso de que los conjuntos compartan la media y la varianza, su
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.4]{fig03}
+		%\includegraphics[scale=0.4]{fig03}
 	\end{center}
 	\caption{La media y la varianza son iguales, no es posible distinguir con certeza los conjuntos entre sí usando estos clasificadores, los resultados de la evaluación son 54\% de éxito para la regresión, 48\% para $k$-nn}
 	\label{fig:fig03}
@@ -216,7 +219,7 @@ Ahora, si suponemos dos conjuntos con medias distintas y mucha varianza observar
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.4]{fig04}
+		%\includegraphics[scale=0.4]{fig04}
 	\end{center}
 	\caption{Cuando los conjuntos se mezclan, $k$-nn puede confundirse (87\% de éxito), pareciera que la regresión logísitca es una mejor opción con el 92\% de éxito}
 	\label{fig:fig04}
@@ -226,7 +229,7 @@ Sin embargo, en dos experimentos más se observó un comportamiento diferente. E
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.4]{fig05}
+		%\includegraphics[scale=0.4]{fig05}
 	\end{center}
 	\caption{Diseño en \textit{cruz} de dos conjuntos. El clasificador de la regresión logística tiene un muy pobre desempeño (49\%) mientras que $k$-nn se mantiene aceptable con 70\% de aciertos}
 	\label{fig:fig05}
@@ -234,7 +237,7 @@ Sin embargo, en dos experimentos más se observó un comportamiento diferente. E
 
 \begin{figure}[h]
 	\begin{center}
-		\includegraphics[scale=0.4]{fig06}
+		%\includegraphics[scale=0.4]{fig06}
 	\end{center}
 	\caption{Cluster. También en este caso $k$-nn logra un mejor resultado quizá debido a la cercanía de los puntos de una de las clases. Obtiene 72\% de aciertos mientras que la regresión logística apenas supera el tiro de la moneda con 51\%}
 	\label{fig:fig06}
@@ -242,15 +245,15 @@ Sin embargo, en dos experimentos más se observó un comportamiento diferente. E
 
 \section{Conclusiones}
 
-Pese a la formalidad con que se construye la teoría alrededor del clasificador de la regresión logística (o quizá debido a ella) este supone mayores dificultades al momento de la implementación para obtener mejores resultados. Por su parte el clasificador $k$-nn ofrece un prncipio sencillo y funcional para clasificar los datos.
+Pese a la formalidad con que se construye la teoría alrededor del clasificador de la regresión logística (o quizá debido a ella) este supone mayores dificultades al momento de la implementación para obtener mejores resultados. Por su parte el clasificador $k$-nn ofrece un prncipio sencillo y funcional para clasificar los datos.\\
 
-Sin duda la idea de optimizar para un conjunto de parámetros puede mejorarse por ejemplo encontrando cotas para estos mismos, quizá esto y algunas otras técnicas proporcionen un mejor acercamiento al resultado esperado.
+Sin duda la idea de optimizar para un conjunto de parámetros puede mejorarse por ejemplo encontrando cotas para estos mismos, quizá esto y algunas otras técnicas proporcionen un mejor acercamiento al resultado esperado.\\
 
-En esta sección se desarrollarán algunos experimentos en lo que pondremos a prueba los modelos poniendo a prueba la efectividad de éstos.
-\section*{Enlaces}
+En esta sección se desarrollarán algunos experimentos en lo que pondremos a prueba los modelos poniendo a prueba la efectividad de éstos. \cite{gitEnlace}
 
-\begin{itemize}
-	\item \url{https://github.com/developingo/estadistica/tarea01} \href{https://github.com/developingo/estadistica/tarea01}{Código usado para realizar las gráficas y las estimaciones}
-\end{itemize}
+\clearpage
+
+\bibliographystyle{plain}
+\bibliography{referencias}
 
 \end{document}
