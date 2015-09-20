@@ -6,16 +6,16 @@ library(class)
 ## clase de los datos de muestra.
 
 # Generación de los datos de la clase 1
-n1 <- 100                                                       # Tamaño de la muestra
-m1 <- c(0, 0)                                                   # Media (Centro de los datos)
-s1 <- c(1, 3)                                                   # Sigma (varianza (Radio de dispersión de los datos))
+n1 <- 200                                                       # Tamaño de la muestra
+m1 <- c(-1, -1)                                                   # Media (Centro de los datos)
+s1 <- c(3, 3)                                                   # Sigma (varianza (Radio de dispersión de los datos))
 d1 <- cbind(rnorm(n1, m1[1], s1[1]), rnorm(n1, m1[2], s1[2]))   # Los datos en si
 cla1 <- rep("1", n1)                                            # Etiquetas (repeat "1" n1 veces)
 
 # Generación de los datos de la clase 2
-n2 <- 100
-m2 <- c(0, 0)
-s2 <- c(3, 1)
+n2 <- 200
+m2 <- c(1, 1)
+s2 <- c(0.5, 0.5)
 d2 <- cbind(rnorm(n2, m2[1], s2[1]), rnorm(n2, m2[2], s2[2]))
 cla2 <- rep("2", n2)
 
@@ -27,19 +27,19 @@ cl <- factor(c(cla1, cla2))
 # Grafica puntos
 
 x11()
-plot(d1, pch=20, xlim=c(-4, 4), ylim=c(-4, 4), main="Datos de entrenamiento")
+plot(d1, pch=20, xlim=c(-4, 4), ylim=c(-4, 4))
 points(d2, pch=20, col="red")
 
 ## Genera datos de prueba de las mismas distribuciones que los de entrenamiento
 ## y con los mismos parámetros
 
 # Genera datos clase 1
-n11 <- 200                                                        ## tamaño de muestra de la clase 1
+n11 <- n1                                                         ## tamaño de muestra de la clase 1
 d11 <- cbind(rnorm(n11, m1[1], s1[1]), rnorm(n11, m1[2], s1[2]))  ## genera datos clase 1
 cla11 <- rep("1", n11)                                            ## etiqueta clase 1
 
 # Genera datos clase 2
-n22 <- 200
+n22 <- n1
 d22 <- cbind(rnorm(n22, m2[1], s2[1]), rnorm(n22, m2[2], s2[2]))
 cla22 <- rep("2", n22)
 
@@ -62,7 +62,7 @@ k <- 1
 
 clhat <- knn(train, test, cl, k = k)
 print("Knn success ratio")
-sum(clte == clhat) / (n11 + n22)        # porcentaje de aciertos
+knn_result <- sum(clte == clhat) / (n11 + n22)        # porcentaje de aciertos
 
 # Clasificador regresión logística
 
@@ -77,4 +77,8 @@ clhat2 <- rep("1", n11 + n22)
 clhat2[aux1 > 1] <- "2"
 
 print("loglike success ratio")
-sum(clte == clhat2) / (n11 + n22)  # Porcentaje de aciertos
+
+loglike_result <- sum(clte == clhat2) / (n11 + n22)  # Porcentaje de aciertos
+
+filename <- sprintf("tarea01/img/n1_%d m1_(%.1f, %.1f) s1_(%d, %d) n2_%d m2_(%.1f, %.1f) s2_(%d, %d) (%f, %f).pdf", n1, m1[1], m1[2], s1[1], s1[2], n2, m2[1], m2[2], s2[1], s2[2], loglike_result, knn_result)
+dev.copy2pdf(file=filename)
