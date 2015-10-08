@@ -1,5 +1,6 @@
 import numpy as np
-from downhill import downhill
+from modules.downhill import downhill
+from modules.bacteria import bacteria
 from gmpy2 import log, exp
 from random import random
 
@@ -10,10 +11,10 @@ if __name__ == '__main__':
 
     with open('filtered.data', 'r') as datafile:
         for line in datafile:
-            y, x = line.strip().split(' ')
+            data = list(map(float, line.strip().split(',')))
 
-            y_data.append(bool(y))
-            x_data.append(np.array([1] + list(map(float, x.split(',')))))
+            y_data.append(bool(data[-1]))
+            x_data.append(np.array([1] + data[:-1]))
 
     def makeloglike(x_data, y_data):
         def loglike(ß):
@@ -29,12 +30,17 @@ if __name__ == '__main__':
 
         return loglike
 
+    print('Done computing loglike function')
+
     loglike = makeloglike(x_data, y_data)
 
-    # print(loglike(np.array(ß)))
-    # print(loglike(np.array([0]*59)))
+    # downhill method is a method for minimizing, but we need to maximize, so
+    # here we propose another function to minimize that maximize the original
+    # function
 
-    # print(downhill(
-    #     loglike,
-    #     np.array([random()*10]*59),
-    # ))
+    start_position  = np.array([random()*100 for i in range(58)])
+
+    print(bacteria(
+        loglike,
+        start_position,
+    ))
