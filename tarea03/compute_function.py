@@ -38,7 +38,7 @@ if __name__ == '__main__':
     # here we propose another function to minimize that maximize the original
     # function
 
-    start_position  = np.array([random()*100 for i in range(58)])
+    start_position  = np.array([random()*2-1 for i in range(58)])
 
     print(bacteria(
         loglike,

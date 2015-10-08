@@ -6,14 +6,14 @@ from random import random
 
 def random_direction(size):
     # Create a random direction
-    start_direction = np.array([random() for i in range(size)])
+    start_direction = np.array([random()*2-1 for i in range(size)])
 
     # Normalize
     start_direction /= np.linalg.norm(start_direction)
 
     return start_direction
 
-def bacteria(function, position, max_iterations=100):
+def bacteria(function, position, max_iterations=1000):
     """
     The idea is simple, if things are going well, keep going in that direction,
     else randomize
@@ -22,8 +22,9 @@ def bacteria(function, position, max_iterations=100):
     direction = random_direction(len(position))
     # Start with zero iterations
     iterations = 0
-    # Evaluate function here
-    value = -float('inf')
+    # start from minus infinity
+    value = function(position)
+    print('start value: ', value)
 
     # The main loop
     while iterations < max_iterations:
@@ -31,13 +32,11 @@ def bacteria(function, position, max_iterations=100):
         next_position = position + direction
         next_value    = function(next_position)
 
-        print(iterations, next_value)
-
         if next_value > value:
             # things are going well
             position = next_position
             value    = next_value
-            print('got new position')
+            print('got new position with value ', value)
         else:
             # things are getting worse, randomize
             direction = random_direction(len(position))
