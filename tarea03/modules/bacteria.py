@@ -11,9 +11,9 @@ def random_direction(size):
     # Normalize
     start_direction /= np.linalg.norm(start_direction)
 
-    return start_direction
+    return start_direction*5
 
-def bacteria(function, position, max_iterations=1000):
+def bacteria(function, position, max_iterations=10000):
     """
     The idea is simple, if things are going well, keep going in that direction,
     else randomize
