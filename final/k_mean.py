@@ -21,11 +21,26 @@ def closest_cluster(row, centroids):
 
     return closest
 
+def plot(data, iteration):
+    for c in range(CLUSTERS):
+        plt.plot(
+            data[data['cluster'] == c]['x'],
+            data[data['cluster'] == c]['y'],
+            'o',
+            label="cluster %d"%c
+        )
+
+    plt.legend()
+    plt.title('Iteration %d'%iteration)
+    plt.show()
+
 if __name__ == '__main__':
     data = pd.read_csv('data.csv', names=('x', 'y'))
 
     # asign a random cluster to each observation
     data['cluster'] = np.random.randint(CLUSTERS, size=len(data['x']))
+
+    plot(data, 0)
 
     times   = 0
 
@@ -46,18 +61,9 @@ if __name__ == '__main__':
 
         times += 1
 
+        plot(data, times)
+
         if not changes:
             break
 
     print('clustering finished after %d iterations'%times)
-    print(data)
-
-    # plot the clusters
-    for c in range(CLUSTERS):
-        plt.plot(
-            data[data['cluster'] == c]['x'],
-            data[data['cluster'] == c]['y'],
-            'o'
-        )
-
-    plt.show()
