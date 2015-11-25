@@ -4,6 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 CLUSTERS = 3
+colors = 'rgbpk'
 
 def euclidean(p1, p2):
     return np.sqrt((p1['x']-p2['x'])**2 + (p1['y'] - p2['y'])**2)
@@ -21,13 +22,19 @@ def closest_cluster(row, centroids):
 
     return closest
 
-def plot(data, iteration):
+def plot(data, centroids, iteration):
     for c in range(CLUSTERS):
         plt.plot(
             data[data['cluster'] == c]['x'],
             data[data['cluster'] == c]['y'],
-            'o',
+            colors[c] + 'o',
             label="cluster %d"%c
+        )
+        plt.plot(
+            centroids[c]['x'],
+            centroids[c]['y'],
+            colors[c] + 'o',
+            markersize = 10,
         )
 
     plt.legend()
@@ -40,8 +47,6 @@ if __name__ == '__main__':
     # asign a random cluster to each observation
     data['cluster'] = np.random.randint(CLUSTERS, size=len(data['x']))
 
-    plot(data, 0)
-
     times   = 0
 
     while True:
@@ -52,16 +57,16 @@ if __name__ == '__main__':
             for i in range(CLUSTERS)
         }
 
+        plot(data, centroids, times)
+
+        times += 1
+
         # Assign each observation the class of the closest centroid
         for i, row in data.iterrows():
             closest = closest_cluster(row, centroids)
             if closest != row['cluster']:
                 data.loc[i, 'cluster'] = closest
                 changes = True
-
-        times += 1
-
-        plot(data, times)
 
         if not changes:
             break
