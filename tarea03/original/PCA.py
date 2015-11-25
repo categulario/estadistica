@@ -39,7 +39,7 @@ if __name__ == '__main__':
 
         p = int(input('¿Cuántos vectores quieres? '))
     else:
-        p = 2
+        p = 3
 
     # Compute the feature vector matrix (dim x p)
     feature = vectors[:,:p]
@@ -56,14 +56,28 @@ if __name__ == '__main__':
     np.savetxt("reduced.csv", reduced_data, delimiter=",", fmt=formats)
 
     # plot the new data
-    df = pd.DataFrame(reduced_data, columns=('x', 'y', 'class'))
-    spam = df[df['class'] == 1]
-    nospam = df[df['class'] == 0]
-
     if p == 2:
+        df = pd.DataFrame(reduced_data, columns=('x', 'y', 'class'))
+        spam = df[df['class'] == 1]
+        nospam = df[df['class'] == 0]
+
         plt.plot(spam['x'], spam['y'], 'ro', label='spam')
         plt.plot(nospam['x'], nospam['y'], 'bo', label='nospam')
 
         plt.legend(loc='best')
 
+    elif p == 3:
+        from mpl_toolkits.mplot3d import Axes3D
+
+        df = pd.DataFrame(reduced_data, columns=('x', 'y', 'z', 'class'))
+        spam = df[df['class'] == 1]
+        nospam = df[df['class'] == 0]
+
+        fig = plt.figure()
+        ax = fig.add_subplot(111, projection='3d')
+
+        ax.scatter(spam['x'], spam['y'], spam['z'], c = 'r', marker='o')
+        ax.scatter(nospam['x'], nospam['y'], nospam['z'], c='b', marker='^')
+
+    if p in (2, 3):
         plt.show()
