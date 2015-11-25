@@ -5,7 +5,7 @@ from names import names
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    data = pd.read_csv('spambase.data', names = names)
+    data = pd.read_csv('spambase.data', names = names).sample(frac=1/3)
 
     # Remove last column (the class)
     data = data.loc[:,names[:-1]]
