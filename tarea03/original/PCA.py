@@ -6,15 +6,23 @@ from names import names
 import matplotlib.pyplot as plt
 
 if __name__ == '__main__':
-    data = pd.read_csv('spambase.data', names = names).sample(frac=1/3)
+    alldata = pd.read_csv('spambase.data', names = names)
+
+    data    = alldata.sample(frac=1/3)
 
     # Remove last column (the class)
     classes = data.loc[:,names[-1]]
     data    = data.loc[:,names[:-1]]
 
+    alldata_classes = alldata.loc[:,names[-1]]
+    alldata = alldata.loc[:,names[:-1]]
+
     # Normalize data
     data -= data.mean()
     data /= data.std()
+
+    alldata -= alldata.mean()
+    alldata /= alldata.std()
 
     # Calculate covariance matrix
     cov = data.cov()
@@ -46,18 +54,23 @@ if __name__ == '__main__':
 
     # Finally compute new data multiplying feature vector matrix with
     # data matrix
-    final = np.dot(feature.T, data.T).T
+    final_train = np.dot(feature.T, data.T).T
+
+    final_total = np.dot(feature.T, alldata.T).T
 
     # Add the class column
-    reduced_data = np.append(final, classes.reshape((len(classes), 1)), axis=1)
+    reduced_train_data = np.append(final_train, classes.reshape((len(classes), 1)), axis=1)
+
+    reduced_data = np.append(final_total, alldata_classes.reshape((len(alldata_classes), 1)), axis=1)
 
     # Save the reduced-dimention data to a file
     formats = ('%f',)*p + ('%d',)
+    np.savetxt("train.csv", reduced_train_data, delimiter=",", fmt=formats)
     np.savetxt("reduced.csv", reduced_data, delimiter=",", fmt=formats)
 
     # plot the new data
     if p == 1:
-        df = pd.DataFrame(reduced_data, columns=('x', 'class'))
+        df = pd.DataFrame(reduced_train_data, columns=('x', 'class'))
         spam = df[df['class'] == 1]
         nospam = df[df['class'] == 0]
 
@@ -66,7 +79,7 @@ if __name__ == '__main__':
 
         plt.legend(loc='best')
     elif p == 2:
-        df = pd.DataFrame(reduced_data, columns=('x', 'y', 'class'))
+        df = pd.DataFrame(reduced_train_data, columns=('x', 'y', 'class'))
         spam = df[df['class'] == 1]
         nospam = df[df['class'] == 0]
 
@@ -77,7 +90,7 @@ if __name__ == '__main__':
     elif p == 3:
         from mpl_toolkits.mplot3d import Axes3D
 
-        df = pd.DataFrame(reduced_data, columns=('x', 'y', 'z', 'class'))
+        df = pd.DataFrame(reduced_train_data, columns=('x', 'y', 'z', 'class'))
         spam = df[df['class'] == 1]
         nospam = df[df['class'] == 0]
 
