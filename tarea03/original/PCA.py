@@ -20,7 +20,7 @@ if __name__ == '__main__':
     # gives eigenvectors and eigenvalues, sorted ascending
     values, vectors = np.linalg.eigh(cov)
 
-    # Sort ascending
+    # Sort ascending (assume descending order)
     dim = len(values)
     for i in range(dim//2):
         j = dim - i - 1
@@ -35,3 +35,6 @@ if __name__ == '__main__':
 
     # Get dimention of final space
     p = int(input('¿Cuántos vectores quieres? '))
+
+    # Compute the feature vector
+    feature = vectors[:,:p]
